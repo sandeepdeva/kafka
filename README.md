@@ -1,3 +1,6 @@
+To run locally using Vagarant go to this [link](vagrant/README.md)
+
+
 Kafka Mesos Framework
 ======================
 
@@ -74,7 +77,7 @@ The scheduler is configured through the command line or `kafka-mesos.properties`
 The following options are available:
 ```
 # ./kafka-mesos.sh help scheduler
-Start scheduler 
+Start scheduler
 Usage: scheduler [options] [config.properties]
 
 Option               Description
@@ -307,7 +310,7 @@ current limit is 100Kb no matter how many lines being requested.
 
 High Availability Scheduler State
 -------------------------
-The scheduler supports storing the cluster state in Zookeeper. It currently shares a znode within the mesos ensemble. To turn this on in properties 
+The scheduler supports storing the cluster state in Zookeeper. It currently shares a znode within the mesos ensemble. To turn this on in properties
 
 ```
 clusterStorage=zk:/kafka-mesos
@@ -886,12 +889,12 @@ Listing topic partition details
  Picked up _JAVA_OPTIONS: -Djava.net.preferIPv4Stack=true
  List partitions
  Usage: topic partition [<topic>]
- 
+
  Generic Options
  Option  Description
  ------  -----------
  --api   Api url. Example: http://master:7000
- 
+
  topic-expr examples:
    t0        - topic t0
    t0,t1     - topics t0, t1

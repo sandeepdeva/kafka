@@ -36,6 +36,19 @@ install_mesos() {
     service mesos-slave start
 }
 
+install_mesos_scheduler() {
+    mode="scheduler"
+    apt-get -qy install mesos=0.28.0*
+
+    echo "zk://master:2181/mesos" > /etc/mesos/zk
+    #echo '5mins' > /etc/mesos-slave/executor_registration_timeout
+
+    ip=$(cat /etc/hosts | grep `hostname` | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}")
+    echo $ip > "/etc/mesos-scheduler/ip"
+
+    #apt-get -qy remove zookeeper
+}
+
 install_marathon() {
     apt-get install -qy marathon=0.10.0*
     service marathon start
@@ -47,8 +60,8 @@ install_docker() {
     service mesos-slave restart
 }
 
-if [[ $1 != "master" && $1 != "slave" ]]; then
-    echo "Usage: $0 master|slave"
+if [[ $1 != "master" && $1 != "slave" && $1 != "scheduler" ]]; then
+    echo "Usage: $0 master|slave|scheduler"
     exit 1
 fi
 mode=$1
@@ -90,7 +103,7 @@ apt-get -qy update
 # install deps
 apt-get install -qy vim zip mc curl wget openjdk-7-jre scala git
 
-install_mesos $mode
+if [ $mode != "scheduler" ]; then install_mesos $mode; fi
+if [ $mode == "scheduler" ]; then install_mesos_scheduler $mode; fi
 if [ $mode == "master" ]; then install_marathon; fi
 #install_docker
-
