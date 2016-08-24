@@ -88,45 +88,54 @@ Daemons could be controlled by using:
 
 ## Simulate rebalance
 If you want to test rebalance try the following steps
-- Add 3 brokers and start them
+- Add 3 brokers and start them.
+  
   ```
   ./kafka-mesos.sh broker add 0..2 --mem 200
   ./kafka-mesos.sh start 0..2
   ```
-- Add a topic t1 with 2 partitions and replication factor of 2 on brokers 0 & 1
+- Add a topic t1 with 2 partitions and replication factor of 2 on brokers 0 & 1.
   ```
   ./kafka-mesos.sh topi add t1 --broker 0,1 --partitions 2 --replicas 2
   ```
-- Produce some messages to topic t1 on broker 0 using kafkacat (you need to get hostname of broker 0)
+- Produce some messages to topic t1 on broker 0 using kafkacat (you need to get hostname of broker 0).
+  
   ```
   echo "some text for topic t1" | kafkacat -b "slave0:31000" -t t1 -e
   ```
-- Consume the message
+- Consume the message.
+  
   ```
   kafkacat -C -b "slave0:31000" -t t1 -e
   ```
-- List the partitions for topic t1
+- List the partitions for topic t1.
+  
   ```
   ./kafka-mesos.sh topic partitions t1
   ```
-- Take down the broker 0 by stoping it and removing it
+- Take down the broker 0 by stoping it and removing it.
+  
   ```
   ./kafka-mesos.sh broker stop 0
   ./kafka-mesos.sh broker remove 0
   ```
-- Check the partitions listing for topic t1, the broker 0 should have \*not-isr
+- Check the partitions listing for topic t1, the broker 0 should have \*not-isr.
+  
   ```
   ./kafka-mesos.sh topic partitions t1
   ```
-- Now rebalance topic t1 on brokers 1 and 2
+- Now rebalance topic t1 on brokers 1 and 2.
+  
   ```
   ./kafka-mesos.sh topic rebalance t1 --broker 1,2
   ```
-- Check the status of rebalance
+- Check the status of rebalance.
+  
   ```
   ./kafka-mesos.sh topic rebalance status
   ```  
-- Finally check that partitions are rebalanced on brokers 1 and 2
+- Finally check that partitions are rebalanced on brokers 1 and 2.
+  
   ```
   ./kafka-mesos.sh topic partitions t1
   ```
